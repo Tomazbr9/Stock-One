@@ -1,0 +1,19 @@
+package com.tomazbr9.stock_one.entity;
+
+import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.UUID;
+
+@Embeddable
+@Getter
+@Setter
+@EqualsAndHashCode
+public class StockUnitId implements Serializable {
+
+    private UUID unitId;
+    private UUID productId;
+}
