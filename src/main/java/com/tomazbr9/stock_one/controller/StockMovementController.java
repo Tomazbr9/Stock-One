@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.UUID;
@@ -23,9 +24,15 @@ public class StockMovementController {
 
     @PostMapping
     public ResponseEntity<UUID> registerStockMovement(@RequestBody RegisterStockMovementRequest request, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        UUID response = service.registerStockMovement(request, userDetails.getId());
+        UUID stockMovementId = service.registerStockMovement(request, userDetails.getId());
 
-        return ResponseEntity.created(URI.create("api/v1/stock-movements/" + response)).body(response);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(stockMovementId)
+                .toUri();
+
+        return ResponseEntity.created(location).body(stockMovementId);
     }
 
 }

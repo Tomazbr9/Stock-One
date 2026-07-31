@@ -4,5 +4,6 @@ public enum EquipmentStatus {
     IN_USE,
     IN_MAINTENANCE,
     AVAILABLE,
-    DISCARDED
+    DISCARDED,
+    IN_TRANSIT
 }

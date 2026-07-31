@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -33,9 +34,16 @@ public class TransferenceController {
             @RequestBody SolicitTransferenceRequest request,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ){
-        UUID response = service.solicitTransfer(request, userDetails.getId());
+        UUID transferenceId = service.solicitTransfer(request, userDetails.getId());
 
-        return ResponseEntity.created(URI.create("api/v1/transferences/" + response)).body(response);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(transferenceId)
+                .toUri();
+
+
+        return ResponseEntity.created(location).body(transferenceId);
 
     }
 
