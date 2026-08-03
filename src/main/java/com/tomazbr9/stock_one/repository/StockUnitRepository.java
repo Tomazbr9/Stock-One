@@ -12,5 +12,5 @@ import java.util.UUID;
 public interface StockUnitRepository extends JpaRepository<StockUnit, UUID> {
     List<StockUnit> findByUnitIdAndProductIdIn(UUID unitId, List<UUID> productIds);
 
-    Optional<StockUnit> findByUnitId(UUID unitId);
+    List<StockUnit> findByUnitId(UUID unitId);
 }

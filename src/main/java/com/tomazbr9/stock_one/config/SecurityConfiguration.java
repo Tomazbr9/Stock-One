@@ -28,11 +28,12 @@ public class SecurityConfiguration {
             "/api/v1/units",
             "/api/v1/categories",
             "/api/v1/products",
-            "/api/v1/stock-movements"
+            "/api/v1/stock-movements",
+            "/api/v1/equipments"
     };
 
     public static final String [] ENDPOINTS_TECHNICAL = {
-            "/api/v1/transferences/**"
+            "/api/v1/transfers/**"
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record ItemTransferResponse(
         UUID id,
-        String productName,
+        String itemName,
         Integer quantity
 ) {
 }

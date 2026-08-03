@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/transferences")
+@RequestMapping("/api/v1/transfers")
 @RequiredArgsConstructor
 public class TransferenceController {
 
@@ -42,17 +42,24 @@ public class TransferenceController {
                 .buildAndExpand(transferenceId)
                 .toUri();
 
-
         return ResponseEntity.created(location).body(transferenceId);
-
     }
 
-    @PatchMapping("/{transferId}/transfer")
-    public ResponseEntity<UUID> transfer(
+    @PatchMapping("/{transferId}/dispatch")
+    public ResponseEntity<UUID> dispatchTransfer(
             @PathVariable UUID transferId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ){
-        UUID response = service.transfer(transferId, userDetails.getId());
+        UUID response = service.dispatchTransfer(transferId, userDetails.getId());
+        return ResponseEntity.accepted().body(response);
+    }
+
+    @PatchMapping("/{transferId}/receipt")
+    public ResponseEntity<UUID> receiptTransfer(
+            @PathVariable UUID transferId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        UUID response = service.receiptTransfer(transferId, userDetails.getId());
         return ResponseEntity.accepted().body(response);
     }
 }

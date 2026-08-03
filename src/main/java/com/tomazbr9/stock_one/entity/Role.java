@@ -19,5 +19,7 @@ public class Role {
     @GeneratedValue
     private UUID id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
     private RoleName roleName;
 }

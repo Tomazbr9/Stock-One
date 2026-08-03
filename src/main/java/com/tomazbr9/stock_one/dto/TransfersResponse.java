@@ -13,6 +13,6 @@ public record TransfersResponse(
         String username,
         TransferStatus status,
         LocalDate submissionDate,
-        List<TransferItem> items
+        List<ItemTransferResponse> items
 ) {
 }

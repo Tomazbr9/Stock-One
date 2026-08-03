@@ -1,6 +1,5 @@
 package com.tomazbr9.stock_one.service;
 
-import com.tomazbr9.stock_one.dto.ItemTransferResponse;
 import com.tomazbr9.stock_one.dto.SolicitTransferenceRequest;
 import com.tomazbr9.stock_one.dto.TransferItemRequest;
 import com.tomazbr9.stock_one.dto.TransfersResponse;
@@ -9,7 +8,7 @@ import com.tomazbr9.stock_one.enums.EquipmentStatus;
 import com.tomazbr9.stock_one.enums.TransferStatus;
 import com.tomazbr9.stock_one.exception.BusinessRuleException;
 import com.tomazbr9.stock_one.exception.ResourceNotFoundException;
-import com.tomazbr9.stock_one.exception.UnitNotFoundException;
+import com.tomazbr9.stock_one.mapper.TransferenceMapper;
 import com.tomazbr9.stock_one.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -272,18 +271,14 @@ public class TransferenceService {
 
     public List<TransfersResponse> getTransfersPending(UUID userId){
 
-        User user = userRepository.getReferenceById(userId);
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        if(user.getUnit() == null){
+            throw new BusinessRuleException("O usuário não possui uma unidade vinculada");
+        }
 
         List<Transference> transference = transferenceRepository.findBySourceUnitAndStatus(user.getUnit(), TransferStatus.REQUESTED);
 
-        return transference.stream().map(
-                t -> new TransfersResponse(
-                t.getId(),
-                t.getDestinationUnit().getName(),
-                t.getRequester().getEmail(),
-                t.getStatus(),
-                t.getSubmissionDate(),
-                t.getItems()
-        )).toList();
+        return TransferenceMapper.toDtoList(transference);
     }
 }
