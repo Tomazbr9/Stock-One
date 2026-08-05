@@ -12,7 +12,7 @@ public final class TransferenceMapper {
                 .map(transfer -> new TransfersResponse(
                         transfer.getId(),
                         transfer.getDestinationUnit().getName(),
-                        transfer.getRequester().getEmail(),
+                        transfer.getRequester().getName(),
                         transfer.getStatus(),
                         transfer.getSubmissionDate(),
                         ItemMapper.toDtoList(transfer.getItems())

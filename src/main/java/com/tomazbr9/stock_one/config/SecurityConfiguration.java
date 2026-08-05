@@ -25,15 +25,15 @@ public class SecurityConfiguration {
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
     public static final String [] ENDPOINTS_ADMIN = {
             "/api/auth/register",
-            "/api/v1/units",
             "/api/v1/categories",
             "/api/v1/products",
             "/api/v1/stock-movements",
-            "/api/v1/equipments"
+            "/api/v1/equipments",
     };
 
     public static final String [] ENDPOINTS_TECHNICAL = {
-            "/api/v1/transfers/**"
+            "/api/v1/transfers/**",
+            "/api/v1/units/**"
     };
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
@@ -52,8 +52,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         // Restringe acesso aos endpoints ADMIN
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
+                        .requestMatchers(ENDPOINTS_TECHNICAL).hasAnyRole("ADMIN", "TECHNICAL")
                         .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMIN")
-                        .requestMatchers(ENDPOINTS_TECHNICAL).hasRole("TECHNICAL")
                         // Qualquer outra rota exige autenticação
                         .anyRequest().authenticated()
                 )

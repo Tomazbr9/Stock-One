@@ -8,6 +8,7 @@ import com.tomazbr9.stock_one.exception.ResourceNotFoundException;
 import com.tomazbr9.stock_one.repository.StockUnitRepository;
 import com.tomazbr9.stock_one.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StockUnitService {
 
     private final StockUnitRepository stockUnitRepository;
@@ -23,6 +25,8 @@ public class StockUnitService {
 
     @Transactional(readOnly = true)
     public List<StockBalanceResponse> getConsumableStockByUnit(UUID userId){
+
+        log.info("Solicitação para visulizar estoque. usuário: {}", userId);
 
         return stockUnitRepository.findByUnitId(userId).stream()
                 .map(stock -> new StockBalanceResponse(

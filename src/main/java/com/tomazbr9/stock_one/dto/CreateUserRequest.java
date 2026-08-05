@@ -12,6 +12,9 @@ public record CreateUserRequest(
         @NotNull(message = "Numero da matricula é obrigatória")
         Integer matriculation,
 
+        @NotBlank(message = "Nome do usuário é obrigatório")
+        String name,
+
         @Email(message = "Email é obrigatório")
         String email,
 
